@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoChat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='getuser.css')}}">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='chat.png')}}">
+</head>
+<body>
+
+    <div class="heading">
+        <h1>Welcome to <span class="highlight1">Mongo</span><span class="highlight2">Chat</span></h1>
+    </div>
+    <div class="container">        
+        <h2>Enter your username!</h2>
+        <form action="/index">
+        <input type="text" placeholder="Username" name="username">
+        <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    
+    
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    <title>MongoChat</title>
+</head>
+<body>
+    <div id="chat">
+        <h1><span class="highlight1">Mongo</span><span class="highlight2">Chat</span></h1>
+        <ul id="messages">
+            {% for message in chat_history %}
+                <li>{{ message.username }}: {{ message.message }}</li>
+            {% endfor %}
+        </ul>
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <div class="copyright">
+        Made by Niharika & Sanya
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        var username = "{{ username }}";
+
+        var messageInput = document.getElementById("messageInput");
+        var sendButton = document.getElementById("sendButton");
+        var messageList = document.getElementById("messages");
+
+        function sendMessage() {
+            var message = messageInput.value;
+            if (message.trim() !== "") {
+                socket.emit("message", { username: username, message: message });
+                messageInput.value = "";
+            }
+        }
+
+        sendButton.addEventListener("click", sendMessage);
+
+        messageInput.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault(); // Prevent default form submission
+                sendMessage();
+            }
+        });
+
+        socket.on("message", function(data) {
+            var messageItem = document.createElement("li");
+            messageItem.textContent = data.username + ": " + data.message;
+            messageList.appendChild(messageItem);
+        });
+    </script>
+</body>
+</html>
